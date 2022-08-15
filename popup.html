@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<div test="${not empty popupInfo }">
+  <div className="popup_area">
+    <div var="popupinfo" items="${popupInfo}" varStatus="status">
+      <div id="popup_${status.count}" className="layer_popup on"
+           style="background-color : white ; height:534px; width: 518px; padding: 20px 20px 20px 20px;">
+        <img src="https://i.ibb.co/rwCWW2f/popup.png" alt="popup" border="0" width="478px" height="474px">
+        <div className="popup_btn">
+          <a onClick="todaycloseWin('todayCookie_${status.count}');" href="javascript:void(0);"
+             className="close today_b">오늘하루 보지 않기</a>
+          <a onClick="closeWin('popup_${status.count}');" href="javascript:void(0);"
+             className="close close_b">닫기</a>
+        </div>
+      </div>
+    </div>
+    <div var="popupinfo" items="${popupInfo}" varStatus="status">
+      <div id="popup_${status.count}" className="layer_popup on"
+           style="background-color : white ; height:534px; width: 518px; padding: 20px 20px 20px 20px;">
+        <img src="https://i.ibb.co/rwCWW2f/popup.png" alt="popup" border="0" width="478px" height="474px">
+        <div className="popup_btn">
+          <a onClick="todaycloseWin('todayCookie_${status.count}');" href="javascript:void(0);"
+             className="close today_b">오늘하루 보지 않기</a>
+          <a onClick="closeWin('popup_${status.count}');" href="javascript:void(0);"
+             className="close close_b">닫기</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+   window.onload=function() {
+   for (var a= 0; a < 5; a++ ){
+    if(getCookie('todayCookie_${a}') == 'done') {
+      document.getElementById('popup_${a}').style.display = "none";
+    }else {
+      document.getElementById('popup_${a}').style.display = "block";
+    }
+   }
+  };
+
+
+
+  // 쿠키 생성 함수
+  function setCookie(cName, cValue, cDay){
+    var expire = new Date();
+    expire.setDate(expire.getDate() + cDay);
+    cookies = cName + '=' + escape(cValue) + '; path=/ '; // 한글 깨짐을 막기위해
+    if(typeof cDay != 'undefined') cookies += ';expires=' + expire.toGMTString() + ';';
+    document.cookie = cookies;
+  }
+
+
+  // 쿠키 가져오기 함수
+  function getCookie(cName) {
+    var x, y; var val = document.cookie.split(';');
+    for (var i = 0; i < val.length; i++) {
+      x = val[i].substr(0, val[i].indexOf('='));
+      y = val[i].substr(val[i].indexOf('=') + 1);
+      x = x.replace(/^\s+|\s+$/g, ''); // 앞과 뒤의 공백 제거하기
+      if (x == cName) {
+        return unescape(y);
+        // unescape로 디코딩 후 값 리턴
+      }
+    }
+  }
+
+
+  // 팝업창 닫기
+  function closeWin(popId) {
+    document.getElementById(popId).style.display = "none";
+  }
+
+
+  // 오늘 하루 보지 않기 닫기
+  function todaycloseWin(cookiename) {
+    setCookie(cookiename, "done", 1);     // 저장될 쿠키명 , 쿠키 value값 , 기간
+    var popId = 'popup_' + cookiename.split('_')[1];
+    document.getElementById(popId).style.display = "none"; // 팝업창 아이디
+  }
+
+</script>
+</body>
+</html>
